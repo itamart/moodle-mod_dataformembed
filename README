@@ -1,0 +1,40 @@
+Dataform embedded module
+========================
+
+A Moodle mod resource to display Dataform content in a course section. 
+
+Installation:
+------------
+Default installation instructions for plugins in category Activities.
+
+Status:
+------
+Stable
+
+
+Requires:
+--------
+Moodle 2.0-2.3
+
+
+Documentation:
+-------------
+Please feel free to contribute documentation in the relevant area of
+the MoodleDocs wiki.
+
+Support:
+--------
+
+
+Bug reports:
+------------
+
+
+Change log:
+-----------
+2.0.0
+
+Notes
+-----
+
+
