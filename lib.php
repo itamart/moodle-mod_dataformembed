@@ -198,6 +198,7 @@ function dataformembed_cm_info_view(cm_info $cm) {
                         'modjs' => true,
                         'completion' => true,
                         'comments' => true,
+                        'nologin' => true,
                 );        
                 $pageoutput = $df->set_page('external', $params);
                 
