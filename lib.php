@@ -190,7 +190,7 @@ function dataformembed_cm_info_view(cm_info $cm) {
         if ($df = new dataform($dataformembed->dataform, null, true)) {
             if ($view = $df->get_view_from_id($dataformembed->view)) {
                 if (!empty($dataformembed->filter)) {
-                    $view->set_filter($dataformembed->filter);
+                    $view->set_filter(array('filterid' => $dataformembed->filter));
                 }        
                 $params = array(
                         'js' => true,
