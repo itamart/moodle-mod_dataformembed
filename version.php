@@ -17,15 +17,15 @@
 /**
  * @package    mod
  * @subpackage dataformembed
- * @copyright  2012 Itamar Tzadok
+ * @copyright  2013 Itamar Tzadok {@link http://substantialmethods.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') or die;
 
 $module->component = 'mod_dataformembed';
-$module->release = '2.1.0';
-$module->version = 2012112600;
+$module->release = '2.1.1';
+$module->version = 2013112500;
 $module->requires = 2010112400;
 $module->maturity = MATURITY_STABLE;
 $module->dependencies = array('mod_dataform' => 2012112600);

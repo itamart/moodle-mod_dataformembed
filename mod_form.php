@@ -18,7 +18,7 @@
 /**
  * @package    mod
  * @subpackage dataformembed
- * @copyright  2012 Itamar Tzadok
+ * @copyright  2013 Itamar Tzadok {@link http://substantialmethods.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -70,6 +70,7 @@ class mod_dataformembed_mod_form extends moodleform_mod {
 
          // style
         $mform->addElement('text', 'style', get_string('style', 'dataformembed'), array('size'=>'64'));
+        $mform->setType('style', PARAM_TEXT);
         $mform->disabledIf('style', 'embed', 'eq', 0);
 
         $this->standard_coursemodule_elements();
