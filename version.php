@@ -24,8 +24,8 @@
 defined('MOODLE_INTERNAL') or die;
 
 $module->component = 'mod_dataformembed';
-$module->release = '2.1.1';
-$module->version = 2013112500;
+$module->release = '2.1.2';
+$module->version = 2013112600;
 $module->requires = 2010112400;
 $module->maturity = MATURITY_STABLE;
 $module->dependencies = array('mod_dataform' => 2012112600);

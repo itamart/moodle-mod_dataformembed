@@ -18,7 +18,7 @@
 /**
  * @package    mod
  * @subpackage dataformembed
- * @copyright  2012 Itamar Tzadok
+ * @copyright  2013 Itamar Tzadok {@link http://substantialmethods.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -190,7 +190,7 @@ function dataformembed_cm_info_view(cm_info $cm) {
         if ($df = new dataform($dataformembed->dataform, null, true)) {
             if ($view = $df->get_view_from_id($dataformembed->view)) {
                 if (!empty($dataformembed->filter)) {
-                    $view->set_filter(array('filterid' => $dataformembed->filter));
+                    $view->set_filter(array('id' => $dataformembed->filter));
                 }        
                 $params = array(
                         'js' => true,
