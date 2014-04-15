@@ -18,7 +18,7 @@
 /**
  * @package    mod
  * @subpackage dataformembed
- * @copyright  2013 Itamar Tzadok {@link http://substantialmethods.com}
+ * @copyright  2012 Itamar Tzadok
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -141,95 +141,21 @@ function dataformembed_cm_info_view(cm_info $cm) {
     if ($dataformembed->view and !$DB->record_exists('dataform_views', array('id' => $dataformembed->view))) {
         return;
     }
-          
-    // if embed create the container
-    if (!empty($dataformembed->embed)) {
-        $dataurl = new moodle_url(
-            '/mod/dataform/embed.php',
-            array('d' => $dataformembed->dataform, 'view' => $dataformembed->view)
-        );
-        
-        // filter
-        if (!empty($dataformembed->filter)) {
-            $dataurl->param('filter', $dataformembed->filter);
-        }
-        
-        // styles
-        $styles = dataformembed_parse_css_style($dataformembed);
-        if (!isset($styles['width'])) {
-            $styles['width'] = '100%;';
-        }
-        if (!isset($styles['height'])) {
-            $styles['height'] = '200px;';
-        }
-        if (!isset($styles['border'])) {
-            $styles['border'] = '0;';
-        }
-        $stylestr = implode('',array_map(function($a, $b){return "$a: $b";}, array_keys($styles), $styles));            
-        
-        // The iframe attr
-        $params = array('src' => $dataurl, 'style' => $stylestr);
-        
-        // Add scrolling attr
-        if (!empty($styles['overflow']) and $styles['overflow'] == 'hidden;') {
-            $params['scrolling'] = 'no';
-        }             
-
-        // The iframe
-        $content = html_writer::tag(
-            'iframe',
-            null,
-            $params  
-        );
-
-    // Not embedding
-    } else {
     
-        // Set a dataform object with guest autologin
-        require_once("$CFG->dirroot/mod/dataform/mod_class.php");
-        if ($df = new dataform($dataformembed->dataform, null, true)) {
-            if ($view = $df->get_view_from_id($dataformembed->view)) {
-                if (!empty($dataformembed->filter)) {
-                    $view->set_filter(array('id' => $dataformembed->filter));
-                }        
-                $params = array(
-                        'js' => true,
-                        'css' => true,
-                        'modjs' => true,
-                        'completion' => true,
-                        'comments' => true,
-                        'nologin' => true,
-                );        
-                $pageoutput = $df->set_page('external', $params);
-                
-                $view->set_content();
-                $viewcontent = $view->display(array('tohtml' => true));
-                $content = "$pageoutput\n$viewcontent";
-            }
-        }
+    $dataformid = $dataformembed->dataform;
+    $viewid = $dataformembed->view;
+    $filterid = $dataformembed->filter;
+    $containerstyle = !empty($dataformembed->style) ? $dataformembed->style : null;
+    
+    if (!empty($dataformembed->embed)) {
+        $content = mod_dataform_dataform::get_content_embedded($dataformid, $viewid, $filterid, $containerstyle);
+    } else {
+        $content = mod_dataform_dataform::get_content_inline($dataformid, $viewid, $filterid);
     }
 
     if (!empty($content)) {
         $cm->set_content($content);
     }
-}
-
-/**
- * @return array
- */
-function dataformembed_parse_css_style($dataformembed) {
-    $styles = array();
-    if (!empty($dataformembed->style) and $arr = explode(';', $dataformembed->style)) {
-        foreach ($arr as $rule) {
-            if ($rule = trim($rule) and strpos($rule, ':')) {
-                list($attribute, $value) = array_map('trim', explode(':', $rule));
-                if ($value !== '') {
-                    $styles[$attribute] = "$value;";
-                }
-            }
-        }                
-    }    
-    return $styles;
 }
 
 /**

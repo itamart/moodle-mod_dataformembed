@@ -18,7 +18,7 @@
 /**
  * @package    mod
  * @subpackage dataformembed
- * @copyright  2013 Itamar Tzadok {@link http://substantialmethods.com}
+ * @copyright  2012 Itamar Tzadok
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -62,8 +62,8 @@ class mod_dataformembed_mod_form extends moodleform_mod {
 
         // filters menu
         $options = array(0 => get_string('choosedots'));
-        $mform->addElement('select', "filter", get_string('selectfilter', 'dataformembed'), $options);
-        $mform->disabledIf("filter", "dataform", 'eq', 0);
+        $mform->addElement('select', 'filterid', get_string('selectfilter', 'dataformembed'), $options);
+        $mform->disabledIf('filterid', "dataform", 'eq', 0);
 
         // embed
         $mform->addElement('selectyesno', "embed", get_string('embed', 'dataform'));
@@ -78,22 +78,6 @@ class mod_dataformembed_mod_form extends moodleform_mod {
         // buttons
         //-------------------------------------------------------------------------------
     	$this->add_action_buttons();
-
-        // ajax view loading
-        $options = array(
-            'dffield' => 'dataform',
-            'viewfield' => 'view',
-            'filterfield' => 'filter',
-            'acturl' => "$CFG->wwwroot/mod/dataform/loaddfviews.php"
-        );
-
-        $module = array(
-            'name' => 'M.mod_dataform_load_views',
-            'fullpath' => '/mod/dataform/dataformloadviews.js',
-            'requires' => array('base','io','node')
-        );
-
-        $PAGE->requires->js_init_call('M.mod_dataform_load_views.init', array($options), false, $module);
     }
     
     /**
@@ -122,17 +106,48 @@ class mod_dataformembed_mod_form extends moodleform_mod {
                 }
             }
         
-            if ($viewid) {           
-                if ($filters = $DB->get_records_menu('dataform_filters', array('dataid' => $dataformid), 'name', 'id,name')) {
-                    $configfilter = &$this->_form->getElement('filter');
-                    foreach($filters as $key => $value) {
-                        $configfilter->addOption(strip_tags(format_string($value, true)), $key);
-                    }
+            if ($filters = $DB->get_records_menu('dataform_filters', array('dataid' => $dataformid), 'name', 'id,name')) {
+                $configfilter = &$this->_form->getElement('filterid');
+                foreach($filters as $key => $value) {
+                    $configfilter->addOption(strip_tags(format_string($value, true)), $key);
                 }
             }
         }
     }
     
+    /**
+     *
+     */
+    function data_preprocessing(&$data){
+        $data = (array) $data;
+        parent::data_preprocessing($data);
+
+        // Set filterid from filter
+        $data['filterid'] = !empty($data['filter']) ? $data['filter'] : 0;
+    }
+
+    /**
+     *
+     */
+    function set_data($data) {
+        $this->data_preprocessing($data);
+        parent::set_data($data);
+    }
+
+    /**
+     *
+     */
+    function get_data() {
+        $data = parent::get_data();
+        if (!$data) {
+            return false;
+        }
+        // Get filter from filterid
+        $data->filter = empty($data->filterid) ? 0 : $data->filterid;
+
+        return $data;
+    }
+
     /**
      *
      */
