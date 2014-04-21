@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -25,6 +24,6 @@
 defined('MOODLE_INTERNAL') or die;
 
 $logs = array(
-    array('module'=>'dataformembed', 'action'=>'add', 'mtable'=>'dataformembed', 'field'=>'name'),
-    array('module'=>'dataformembed', 'action'=>'update', 'mtable'=>'dataformembed', 'field'=>'name'),
+    array('module' => 'dataformembed', 'action' => 'add', 'mtable' => 'dataformembed', 'field' => 'name'),
+    array('module' => 'dataformembed', 'action' => 'update', 'mtable' => 'dataformembed', 'field' => 'name'),
 );

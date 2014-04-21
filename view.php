@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -26,29 +25,29 @@
 
 require_once("../../config.php");
 
-$id = optional_param('id',0,PARAM_INT);    // Course Module ID, or
-$de = optional_param('de',0,PARAM_INT);     // Dataform embed ID
+$id = optional_param('id', 0, PARAM_INT);    // Course Module ID, or
+$de = optional_param('de', 0, PARAM_INT);     // Dataform embed ID
 
 if ($id) {
-    $PAGE->set_url('/mod/dataformembed/index.php', array('id'=>$id));
+    $PAGE->set_url('/mod/dataformembed/index.php', array('id' => $id));
     if (!$cm = get_coursemodule_from_id('dataformembed', $id)) {
         print_error('invalidcoursemodule');
     }
 
-    if (!$course = $DB->get_record("course", array("id"=>$cm->course))) {
+    if (!$course = $DB->get_record("course", array('id' => $cm->course))) {
         print_error('coursemisconf');
     }
 
-    if (!$dataformembed = $DB->get_record("dataformembed", array("id"=>$cm->instance))) {
+    if (!$dataformembed = $DB->get_record("dataformembed", array('id' => $cm->instance))) {
         print_error('invalidcoursemodule');
     }
 
 } else {
-    $PAGE->set_url('/mod/dataformembed/index.php', array('l'=>$l));
-    if (! $dataformembed = $DB->get_record("dataformembed", array("id"=>$l))) {
+    $PAGE->set_url('/mod/dataformembed/index.php', array('l' => $l));
+    if (! $dataformembed = $DB->get_record("dataformembed", array('id' => $l))) {
         print_error('invalidcoursemodule');
     }
-    if (!$course = $DB->get_record("course", array("id"=>$dataformembed->course)) ){
+    if (!$course = $DB->get_record("course", array('id' => $dataformembed->course)) ) {
         print_error('coursemisconf');
     }
     if (!$cm = get_coursemodule_from_instance("dataformembed", $dataformembed->id, $course->id)) {
