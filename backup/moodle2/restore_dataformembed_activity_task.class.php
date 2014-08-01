@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -24,32 +23,32 @@
 
 defined('MOODLE_INTERNAL') or die;
 
-require_once("$CFG->dirroot/mod/dataformembed/backup/moodle2/restore_dataformembed_stepslib.php"); // Because it exists (must)
+require_once("$CFG->dirroot/mod/dataformembed/backup/moodle2/restore_dataformembed_stepslib.php"); // Because it exists (must).
 
 /**
  * dataformembed restore task that provides all the settings and steps to perform one
- * complete restore of the activity
+ * complete restore of the activity.
  */
 class restore_dataformembed_activity_task extends restore_activity_task {
 
     /**
-     * Define (add) particular settings this activity can have
+     * Define (add) particular settings this activity can have.
      */
     protected function define_my_settings() {
-        // No particular settings for this activity
+        // No particular settings for this activity.
     }
 
     /**
      * Define (add) particular steps this activity can have
      */
     protected function define_my_steps() {
-        // dataformembed only has one structure step
+        // Dataform embed only has one structure step.
         $this->add_step(new restore_dataformembed_activity_structure_step('dataformembed_structure', 'dataformembed.xml'));
     }
 
     /**
      * Define the contents in the activity that must be
-     * processed by the link decoder
+     * processed by the link decoder.
      */
     static public function define_decode_contents() {
         $contents = array();
@@ -61,7 +60,7 @@ class restore_dataformembed_activity_task extends restore_activity_task {
 
     /**
      * Define the decoding rules for links belonging
-     * to the activity to be executed by the link decoder
+     * to the activity to be executed by the link decoder.
      */
     static public function define_decode_rules() {
         return array();
@@ -71,7 +70,7 @@ class restore_dataformembed_activity_task extends restore_activity_task {
      * Define the restore log rules that will be applied
      * by the {@link restore_logs_processor} when restoring
      * dataformembed logs. It must return one array
-     * of {@link restore_log_rule} objects
+     * of {@link restore_log_rule} objects.
      */
     static public function define_restore_log_rules() {
         $rules = array();
@@ -87,7 +86,7 @@ class restore_dataformembed_activity_task extends restore_activity_task {
      * Define the restore log rules that will be applied
      * by the {@link restore_logs_processor} when restoring
      * course logs. It must return one array
-     * of {@link restore_log_rule} objects
+     * of {@link restore_log_rule} objects.
      *
      * Note this rules are applied when restoring course logs
      * by the restore final task, but are defined here at

@@ -15,17 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod
- * @subpackage dataformembed
- * @copyright  2013 Itamar Tzadok {@link http://substantialmethods.com}
+ * @package    mod_dataformembed
+ * @copyright  2014 Itamar Tzadok {@link http://substantialmethods.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') or die;
 
 $module->component = 'mod_dataformembed';
-$module->release = '2.6.0';
-$module->version = 2014041200;
-$module->requires = 2013111800;
-$module->maturity = MATURITY_STABLE;
+$module->release = '2.8dev';
+$module->version = 2014080100;
+$module->requires = 2014072400;
+$module->maturity = MATURITY_ALPHA;
 $module->dependencies = array('mod_dataform' => 2014041200);

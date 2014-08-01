@@ -12,11 +12,10 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
- 
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * @package    mod
- * @subpackage dataformembed
+ * @package    mod_dataformembed
  * @copyright  2012 Itamar Tzadok
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,17 +26,17 @@ function xmldb_dataformembed_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2012060900) {
-        // add field embed
+        // Add field embed.
         $table = new xmldb_table('dataformembed');
         $field = new xmldb_field('embed', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0', 'filter');
 
-        // Launch add field selection
+        // Launch add field selection.
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
-        
-        // dataform savepoint reached
-        upgrade_mod_savepoint(true, 2012060900, 'dataformembed');   
+
+        // Dataform savepoint reached.
+        upgrade_mod_savepoint(true, 2012060900, 'dataformembed');
     }
 
     return true;

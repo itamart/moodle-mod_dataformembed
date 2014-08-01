@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod
- * @subpackage dataformembed
+ * @package    mod_dataformembed
  * @copyright  2012 Itamar Tzadok
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -32,7 +30,7 @@ defined('MOODLE_INTERNAL') or die;
 function dataformembed_add_instance($dataformembed) {
     global $DB;
 
-    $dataformembed->name = get_string('modulename','dataformembed');
+    $dataformembed->name = get_string('modulename', 'dataformembed');
     $dataformembed->timemodified = time();
 
     return $DB->insert_record("dataformembed", $dataformembed);
@@ -50,7 +48,7 @@ function dataformembed_add_instance($dataformembed) {
 function dataformembed_update_instance($dataformembed) {
     global $DB;
 
-    $dataformembed->name = get_string('modulename','dataformembed');
+    $dataformembed->name = get_string('modulename', 'dataformembed');
     $dataformembed->timemodified = time();
     $dataformembed->id = $dataformembed->instance;
     if (empty($dataformembed->dataform)) {
@@ -69,13 +67,13 @@ function dataformembed_update_instance($dataformembed) {
 function dataformembed_delete_instance($id) {
     global $DB;
 
-    if (!$dataformembed = $DB->get_record("dataformembed", array("id"=>$id))) {
+    if (!$dataformembed = $DB->get_record("dataformembed", array('id' => $id))) {
         return false;
     }
 
     $result = true;
 
-    if (!$DB->delete_records("dataformembed", array("id"=>$dataformembed->id))) {
+    if (!$DB->delete_records("dataformembed", array('id' => $dataformembed->id))) {
         $result = false;
     }
 
@@ -95,14 +93,15 @@ function dataformembed_delete_instance($id) {
 function dataformembed_get_coursemodule_info($coursemodule) {
     global $DB;
 
-    if ($dataformembed = $DB->get_record('dataformembed', array('id'=>$coursemodule->instance), 'id, name, dataform, view, filter')) {
+    $fields = 'id, name, dataform, view, filter';
+    if ($dataformembed = $DB->get_record('dataformembed', array('id' => $coursemodule->instance), $fields)) {
         if (empty($dataformembed->name)) {
-            // dataformembed name missing, fix it
+            // Dataform embed name missing, fix it.
             $dataformembed->name = "dataformembed{$dataformembed->id}";
-            $DB->set_field('dataformembed', 'name', $dataformembed->name, array('id'=>$dataformembed->id));
+            $DB->set_field('dataformembed', 'name', $dataformembed->name, array('id' => $dataformembed->id));
         }
         $info = new stdClass();
-        $info->extra = '';           
+        $info->extra = '';
         $info->name  = $dataformembed->name;
         return $info;
     } else {
@@ -123,30 +122,31 @@ function dataformembed_get_coursemodule_info($coursemodule) {
 function dataformembed_cm_info_view(cm_info $cm) {
     global $DB, $CFG;
 
-    if (!$dataformembed = $DB->get_record('dataformembed', array('id'=>$cm->instance), 'id, name, dataform, view, filter, embed, style')) {
+    $fields = 'id, name, dataform, view, filter, embed, style';
+    if (!$dataformembed = $DB->get_record('dataformembed', array('id' => $cm->instance), $fields)) {
         return;
     }
 
-    // We must have at least dataform id and view id
+    // We must have at least dataform id and view id.
     if (empty($dataformembed->dataform) or empty($dataformembed->view)) {
         return;
     }
 
-    // Sanity check in case the designated dataform has been deleted
+    // Sanity check in case the designated dataform has been deleted.
     if ($dataformembed->dataform and !$DB->record_exists('dataform', array('id' => $dataformembed->dataform))) {
         return;
     }
-          
-    // Sanity check in case the designated view has been deleted
+
+    // Sanity check in case the designated view has been deleted.
     if ($dataformembed->view and !$DB->record_exists('dataform_views', array('id' => $dataformembed->view))) {
         return;
     }
-    
+
     $dataformid = $dataformembed->dataform;
     $viewid = $dataformembed->view;
     $filterid = $dataformembed->filter;
     $containerstyle = !empty($dataformembed->style) ? $dataformembed->style : null;
-    
+
     if (!empty($dataformembed->embed)) {
         $content = mod_dataform_dataform::get_content_embedded($dataformid, $viewid, $filterid, $containerstyle);
     } else {
@@ -205,19 +205,31 @@ function dataformembed_get_extra_capabilities() {
  */
 function dataformembed_supports($feature) {
     switch($feature) {
-        case FEATURE_IDNUMBER:                return false;
-        case FEATURE_GROUPS:                  return false;
-        case FEATURE_GROUPINGS:               return false;
-        case FEATURE_GROUPMEMBERSONLY:        return true;
-        case FEATURE_MOD_INTRO:               return true;
-        case FEATURE_COMPLETION_TRACKS_VIEWS: return false;
-        case FEATURE_GRADE_HAS_GRADE:         return false;
-        case FEATURE_GRADE_OUTCOMES:          return false;
-        case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_RESOURCE;
-        case FEATURE_BACKUP_MOODLE2:          return true;
-        case FEATURE_NO_VIEW_LINK:            return true;
+        case FEATURE_IDNUMBER:
+            return false;
+        case FEATURE_GROUPS:
+            return false;
+        case FEATURE_GROUPINGS:
+            return false;
+        case FEATURE_GROUPMEMBERSONLY:
+            return true;
+        case FEATURE_MOD_INTRO:
+            return true;
+        case FEATURE_COMPLETION_TRACKS_VIEWS:
+            return false;
+        case FEATURE_GRADE_HAS_GRADE:
+            return false;
+        case FEATURE_GRADE_OUTCOMES:
+            return false;
+        case FEATURE_MOD_ARCHETYPE:
+            return MOD_ARCHETYPE_RESOURCE;
+        case FEATURE_BACKUP_MOODLE2:
+            return true;
+        case FEATURE_NO_VIEW_LINK:
+            return true;
 
-        default: return null;
+        default:
+            return null;
     }
 }
 

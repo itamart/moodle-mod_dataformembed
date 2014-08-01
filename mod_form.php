@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,74 +15,73 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod
- * @subpackage dataformembed
+ * @package    mod_dataformembed
  * @copyright  2012 Itamar Tzadok
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') or die;
 
-require_once ($CFG->dirroot.'/course/moodleform_mod.php');
+require_once($CFG->dirroot.'/course/moodleform_mod.php');
 
 class mod_dataformembed_mod_form extends moodleform_mod {
 
-    function definition() {
+    public function definition() {
         global $DB, $SITE, $CFG, $PAGE;
         $mform = $this->_form;
 
-        // buttons
-        //-------------------------------------------------------------------------------
-    	$this->add_action_buttons();
+        // Buttons.
+        // -------------------------------------------------------------------------------
+        $this->add_action_buttons();
 
         // Fields for editing HTML block title and contents.
-        //--------------------------------------------------------------
+        // --------------------------------------------------------------
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
-        // intro
+        // Intro.
         $this->add_intro_editor(false);
 
-        // dataforms menu
+        // Dataforms menu.
         $options = array(0 => get_string('choosedots'));
         $courseids = array($SITE->id, $this->current->course);
         list($insql, $params) = $DB->get_in_or_equal($courseids);
-        if ($dataforms = $DB->get_records_select_menu('dataform', " course $insql ", $params, 'name', 'id,name')) {        
-            foreach($dataforms as $key => $value) {
+        if ($dataforms = $DB->get_records_select_menu('dataform', " course $insql ", $params, 'name', 'id,name')) {
+            foreach ($dataforms as $key => $value) {
                 $dataforms[$key] = strip_tags(format_string($value, true));
             }
             $options = $options + $dataforms;
-        }    
+        }
         $mform->addElement('select', 'dataform', get_string('selectdataform', 'dataformembed'), $options);
 
-        // views menu
+        // Views menu.
         $options = array(0 => get_string('choosedots'));
         $mform->addElement('select', "view", get_string('selectview', 'dataformembed'), $options);
         $mform->disabledIf("view", "dataform", 'eq', 0);
 
-        // filters menu
+        // Filters menu.
         $options = array(0 => get_string('choosedots'));
         $mform->addElement('select', 'filterid', get_string('selectfilter', 'dataformembed'), $options);
         $mform->disabledIf('filterid', "dataform", 'eq', 0);
 
-        // embed
+        // Embed.
         $mform->addElement('selectyesno', "embed", get_string('embed', 'dataform'));
 
-         // style
-        $mform->addElement('text', 'style', get_string('style', 'dataformembed'), array('size'=>'64'));
+        // Style.
+        $mform->addElement('text', 'style', get_string('style', 'dataformembed'), array('size' => '64'));
         $mform->setType('style', PARAM_TEXT);
         $mform->disabledIf('style', 'embed', 'eq', 0);
 
         $this->standard_coursemodule_elements();
 
-        // buttons
-        //-------------------------------------------------------------------------------
-    	$this->add_action_buttons();
+        // Buttons.
+        // -------------------------------------------------------------------------------
+        $this->add_action_buttons();
     }
-    
+
     /**
      *
      */
-    function definition_after_data() {
+    public function definition_after_data() {
         global $DB;
 
         if ($selectedarr = $this->_form->getElement('dataform')->getSelected()) {
@@ -91,45 +89,45 @@ class mod_dataformembed_mod_form extends moodleform_mod {
         } else {
             $dataformid = 0;
         }
-        
+
         if ($selectedarr = $this->_form->getElement('view')->getSelected()) {
             $viewid = reset($selectedarr);
         } else {
             $viewid = 0;
         }
-        
-        if ($dataformid) {           
+
+        if ($dataformid) {
             if ($views = $DB->get_records_menu('dataform_views', array('dataid' => $dataformid), 'name', 'id,name')) {
                 $configview = &$this->_form->getElement('view');
-                foreach($views as $key => $value) {
+                foreach ($views as $key => $value) {
                     $configview->addOption(strip_tags(format_string($value, true)), $key);
                 }
             }
-        
+
             if ($filters = $DB->get_records_menu('dataform_filters', array('dataid' => $dataformid), 'name', 'id,name')) {
                 $configfilter = &$this->_form->getElement('filterid');
-                foreach($filters as $key => $value) {
+                foreach ($filters as $key => $value) {
                     $configfilter->addOption(strip_tags(format_string($value, true)), $key);
                 }
             }
         }
     }
-    
+
     /**
      *
      */
-    function data_preprocessing(&$data){
+    public function data_preprocessing(&$data) {
         $data = (array) $data;
         parent::data_preprocessing($data);
 
-        // Set filterid from filter
+        // Set filterid from filter.
         $data['filterid'] = !empty($data['filter']) ? $data['filter'] : 0;
     }
 
     /**
      *
      */
-    function set_data($data) {
+    public function set_data($data) {
         $this->data_preprocessing($data);
         parent::set_data($data);
     }
@@ -137,12 +135,12 @@ class mod_dataformembed_mod_form extends moodleform_mod {
     /**
      *
      */
-    function get_data() {
+    public function get_data() {
         $data = parent::get_data();
         if (!$data) {
             return false;
         }
-        // Get filter from filterid
+        // Get filter from filterid.
         $data->filter = empty($data->filterid) ? 0 : $data->filterid;
 
         return $data;
@@ -151,13 +149,13 @@ class mod_dataformembed_mod_form extends moodleform_mod {
     /**
      *
      */
-    function validation($data, $files) {
+    public function validation($data, $files) {
         $errors = parent::validation($data, $files);
 
-        $errors= array();
-        
+        $errors = array();
+
         if (!empty($data['dataform']) and empty($data['view'])) {
-            $errors['view'] = get_string('missingview','dataformembed');
+            $errors['view'] = get_string('missingview', 'dataformembed');
         }
 
         return $errors;
