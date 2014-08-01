@@ -22,9 +22,9 @@
 
 defined('MOODLE_INTERNAL') or die;
 
-$module->component = 'mod_dataformembed';
-$module->release = '2.8dev';
-$module->version = 2014080100;
-$module->requires = 2014072400;
-$module->maturity = MATURITY_ALPHA;
-$module->dependencies = array('mod_dataform' => 2014041200);
+$plugin->component = 'mod_dataformembed';
+$plugin->release = '2.7.0';
+$plugin->version = 2014080100;
+$plugin->requires = 2014051200;
+$plugin->maturity = MATURITY_STABLE;
+$plugin->dependencies = array('mod_dataform' => 2014072100);
