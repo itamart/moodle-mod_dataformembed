@@ -39,7 +39,7 @@ class mod_dataformembed_mod_form extends moodleform_mod {
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
         // Intro.
-        $this->add_intro_editor(false);
+        $this->standard_intro_elements(false, get_string('description'));
 
         // Dataforms menu.
         $options = array(0 => get_string('choosedots'));
