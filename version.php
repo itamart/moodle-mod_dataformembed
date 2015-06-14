@@ -16,15 +16,15 @@
 
 /**
  * @package    mod_dataformembed
- * @copyright  2014 Itamar Tzadok {@link http://substantialmethods.com}
+ * @copyright  2015 Itamar Tzadok {@link http://substantialmethods.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') or die;
 
 $plugin->component = 'mod_dataformembed';
-$plugin->release = '2.8';
-$plugin->version = 2014111000;
-$plugin->requires = 2014111000;
+$plugin->release  = '2.9';
+$plugin->version = 2015051100;
+$plugin->requires = 2015051100;
 $plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array('mod_dataform' => 2014111000);
+$plugin->dependencies = array('mod_dataform' => 2015051100);
