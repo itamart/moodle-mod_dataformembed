@@ -5,7 +5,7 @@ the content of a Dataform activity in a course section on the course page.
 
 Release:
 ------------
-2.8
+2.8.6
 
 Documentation:
 --------------
