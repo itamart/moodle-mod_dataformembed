@@ -5,24 +5,21 @@ Feature: Dataform view
     Scenario: Add dataform view block on the frontpage
         Given I start afresh with dataform "Test Dataform View label"
 
-        And I log in as "admin"
-        And I follow "Course 1"
-        And I follow "Test Dataform View label"
-
         ## Add a text field.
-        Then I go to manage dataform "fields"
-        And I add a dataform field "text" with "Field Text"
+        And the following dataform "fields" exist:
+            | name         | type          | dataform  |
+            | Field Text   | text          | dataform1 |
 
         ## Add an aligned view.
-        Then I go to manage dataform "views"
-        And I add a dataform view "aligned" with "View 01"
-        And I set "View 01" as default view
+        And the following dataform "views" exist:
+            | name     | type      | dataform  | default   |
+            | View 01  | aligned   | dataform1 | 1         |
 
         ## Add filters.
         And the following dataform "filters" exist:
             | name      | dataform  | searchoptions                           |
-            | F1        | dataform1 | AND,1,content,,=,1 Entry by Teacher 01  |
-            | F4        | dataform1 | AND,1,content,,=,4 Entry by Student 02  |
+            | F1        | dataform1 | AND,Field Text,content,,=,1 Entry by Teacher 01  |
+            | F4        | dataform1 | AND,Field Text,content,,=,4 Entry by Student 02  |
 
         ## Add entries.
         And the following dataform "entries" exist:
@@ -33,9 +30,10 @@ Feature: Dataform view
             | dataform1 | student2      |       |               |               | 4 Entry by Student 02     |
             | dataform1 | student3      |       |               |               | 5 Entry by Student 03     |
 
-        Then I follow "Course 1"
-
         ## Add a dataformembed instance.
+        And I log in as "teacher1"
+        And I follow "Course 1"
+
         And I follow "Turn editing on"
         And I follow "Add an activity or resource"
         And I click on "Dataform embedded" "radio"
