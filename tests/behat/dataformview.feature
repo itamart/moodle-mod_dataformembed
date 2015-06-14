@@ -18,8 +18,8 @@ Feature: Dataform view
         ## Add filters.
         And the following dataform "filters" exist:
             | name      | dataform  | searchoptions                           |
-            | F1        | dataform1 | AND,1,content,,=,1 Entry by Teacher 01  |
-            | F4        | dataform1 | AND,1,content,,=,4 Entry by Student 02  |
+            | F1        | dataform1 | AND,Field Text,content,,=,1 Entry by Teacher 01  |
+            | F4        | dataform1 | AND,Field Text,content,,=,4 Entry by Student 02  |
 
         ## Add entries.
         And the following dataform "entries" exist:
