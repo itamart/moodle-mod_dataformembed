@@ -1,8 +1,8 @@
-@mod @mod_dataformembed @mod_dataform
+@mod @mod_dataformembed @set_dataform
 Feature: Dataform view
 
     @javascript
-    Scenario: Add dataform view block on the frontpage
+    Scenario: Add dataform view resource on the frontpage
         Given I start afresh with dataform "Test Dataform View label"
 
         ## Add a text field.
@@ -32,9 +32,8 @@ Feature: Dataform view
 
         ## Add a dataformembed instance.
         And I log in as "teacher1"
-        And I follow "Course 1"
+        And I am on "Course 1" course homepage with editing mode on
 
-        And I follow "Turn editing on"
         And I follow "Add an activity or resource"
         And I click on "Dataform embedded" "radio"
         And I press "Add"
@@ -52,8 +51,8 @@ Feature: Dataform view
         And I see "5 Entry by Student 03"
 
         ## Add a filter.
-        And I click on "li.activity.dataformembed a.toggle-display.textmenu" "css_element"
-        And I click on "a.editing_update" "css_element" in the "li.activity.dataformembed" "css_element"
+        And I click on "li.activity.dataformembed .action-menu" "css_element"
+        And I click on "[data-action='update']" "css_element" in the "li.activity.dataformembed" "css_element"
 
         And I set the field "Select filter" to "F1"
         And I press "Save and display"

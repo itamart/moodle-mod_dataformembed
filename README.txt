@@ -5,8 +5,8 @@ the content of a Dataform activity in a course section on the course page.
 
 Release:
 ------------
-3.0.4
+3.3.2
 
 Documentation:
 --------------
-http://docs.moodle.org/30/en/Dataform_view_module
+http://docs.moodle.org/33/en/Dataform_view_module
